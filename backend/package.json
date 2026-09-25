@@ -13,6 +13,7 @@
   "type": "module",
   "dependencies": {
     "@clerk/express": "^2.1.71",
+    "@stream-io/node-sdk": "^0.8.8",
     "cors": "^2.8.6",
     "dotenv": "^18.0.1",
     "express": "^5.2.1",
