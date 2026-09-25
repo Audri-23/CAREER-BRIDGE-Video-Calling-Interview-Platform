@@ -117,7 +117,7 @@ export async function joinSession(req, res) {
         await session.save()
 
         const channel = chatClient.channel("messaging", session.callId)
-        await channel.addMembers({ clerkId });
+        await channel.addMembers([clerkId]);
 
         res.status(200).json({ session })
 
@@ -147,7 +147,7 @@ export async function endSession(req, res) {
         const call = streamClient.video.call("default", session.callId);
         await call.delete({ hard: true });
 
-        const channel = chatClient.channel("mesaging", callId);
+        const channel = chatClient.channel("messaging", session.callId);
         await channel.delete();
 
         session.status = "completed";
