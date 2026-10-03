@@ -50,7 +50,7 @@ function HomePage() {
                         </h1>
 
                         <p className="text-xl text-base-content/70 leading-relaxed max-w-xl">
-                            The ultimate platform for collaborative coding interviews and pair programmin. Connect face-to-face, code in real-time, and ace your technical interviews.
+                            The ultimate platform for collaborative coding interviews and pair programming. Connect face-to-face, code in real-time, and ace your technical interviews.
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <div className='badge badge-lg badge-outline'>
