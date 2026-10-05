@@ -52,25 +52,25 @@ function ProblemsPage() {
                     ))}
                 </div>
 
-                <div className="mt-12 card bg-base-100 shadow-lg">
+                <div className="max-w-[60%] mx-auto md:max-w-full mt-12 card bg-base-100 shadow-lg">
                     <div className='card-body'>
-                        <div className="stats stats-vertical lg:stats-horizontal">
-                            <div className="stat">
+                        <div className="stats stats-vertical md:stats-horizontal">
+                            <div className="stat text-center md:text-left">
                                 <div className='stat-title'>Total problems</div>
                                 <div className="stat-value text-primary">{problems.length}</div>
                             </div>
 
-                            <div className="stat">
+                            <div className="stat text-center md:text-left">
                                 <div className='stat-title'>Easy</div>
                                 <div className="stat-value text-success">{easyProblemsCount}</div>
                             </div>
 
-                            <div className="stat">
+                            <div className="stat text-center md:text-left">
                                 <div className='stat-title'>Medium</div>
                                 <div className="stat-value text-warning">{mediumProblemsCount}</div>
                             </div>
 
-                            <div className="stat">
+                            <div className="stat text-center md:text-left">
                                 <div className='stat-title'>Hard</div>
                                 <div className="stat-value text-error">{hardProblemsCount}</div>
                             </div>
