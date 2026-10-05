@@ -35,7 +35,7 @@ function HomePage() {
 
             <div className="w-full px-4 py-20">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-8 lg:ml-20">
+                    <div className="space-y-8 mx-auto flex flex-col items-center lg:items-start lg:ml-20">
                         <div className="badge badge-primary bagde-lg text font-semibold">
                             <ZapIcon className="size-4" />
                             Real-time Collabioration
@@ -49,7 +49,7 @@ function HomePage() {
                             <span className="text-base-content">Learn Together</span>
                         </h1>
 
-                        <p className="text-xl text-base-content/70 leading-relaxed max-w-xl">
+                        <p className="text-xl text-base-content/70 leading-relaxed max-w-xl text-center lg:text-left">
                             The ultimate platform for collaborative coding interviews and pair programming. Connect face-to-face, code in real-time, and ace your technical interviews.
                         </p>
                         <div className="flex flex-wrap gap-3">
@@ -81,7 +81,7 @@ function HomePage() {
                             </button>
                         </div>
 
-                        <div className="stats stats-vertical lg:stats-horizontal bg-base-100 shadow-lg">
+                        <div className="stats stats-horizontal bg-base-100 shadow-lg">
                             <div className="stat">
                                 <div className="stat-value text-primary">10K+</div>
                                 <div className='stat-title'>Active Users</div>
