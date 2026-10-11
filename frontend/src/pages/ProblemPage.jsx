@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useAsyncError, useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { PROBLEMS } from '../data/problems';
 import Navbar from '../components/Navbar';
 import { Panel, Group, Separator } from "react-resizable-panels"
 import ProblemDescription from '../components/ProblemDescription';
 import CodeEditorPanel from '../components/CodeEditorPanel';
 import OutputPanel from '../components/OutputPanel';
+import { executeCode } from '../lib/wandbox';
+import toast from "react-hot-toast";
+import confetti from "canvas-confetti";
 
 function ProblemPage() {
 
@@ -29,8 +32,11 @@ function ProblemPage() {
     }, [id, selectedLanguage])
 
 
-    const handleLanguageChange = () => {
-        //
+    const handleLanguageChange = (e) => {
+        const newLang = e.target.value
+        setSelectedLanguage(newLang)
+        setCode(currentProblem.starterCode[newLang])
+        setOutput(null)
     }
 
 
@@ -38,17 +44,65 @@ function ProblemPage() {
 
 
     const triggerConfetti = () => {
-        //
+        confetti({
+            particleCount: 80,
+            spread: 250,
+            origin: { x: 0.2, y: 0.6 },
+        });
+
+        confetti({
+            particleCount: 80,
+            spread: 250,
+            origin: { x: 0.8, y: 0.6 },
+        });
+    };
+
+
+    const normalizeOutput = (output) => {
+        return output
+            .trim()
+            .split("\n")
+            .map((line) =>
+                line
+                    .trim()
+                    .replace(/\[\s+/g, "[")
+                    .replace(/\s+\]/g, "]")
+                    .replace(/\s*,\s*/g, ",")
+            )
+            .filter((line) => line.length > 0)
+            .join("\n");
     }
 
 
-    const checkIfTestsPassed = () => {
-        //
+    const checkIfTestsPassed = (actualOutput, expectedOutput) => {
+        const normalizedActual = normalizeOutput(actualOutput);
+        const normalizedExpected = normalizeOutput(expectedOutput);
+
+        return normalizedActual == normalizedExpected
     }
 
 
-    const handleRunCode = () => {
-        //
+    const handleRunCode = async () => {
+        setIsRunning(true)
+        setOutput(null)
+
+        const result = await executeCode(selectedLanguage, code)
+        setOutput(result)
+        setIsRunning(false)
+
+        if (result.success) {
+            const expectedOutput = currentProblem.expectedOutput[selectedLanguage]
+            const testsPassed = checkIfTestsPassed(result.output, expectedOutput)
+
+            if (testsPassed) {
+                triggerConfetti()
+                toast.success("All tests passed! Great job!")
+            } else {
+                toast.error("Tests failed! Check your output!")
+            }
+        } else {
+            toast.error("Code execution failed!")
+        }
     }
 
     return (
@@ -71,13 +125,20 @@ function ProblemPage() {
                     <Panel defaultSize={60} minSize={30}>
                         <Group orientation="vertical">
                             <Panel defaultSize={70} minSize={30}>
-                                <CodeEditorPanel />
+                                <CodeEditorPanel
+                                    selectedLanguage={selectedLanguage}
+                                    code={code}
+                                    isRunning={isRunning}
+                                    onLanguageChange={handleLanguageChange}
+                                    onCodeChange={setCode}
+                                    onRunCode={handleRunCode}
+                                />
                             </Panel>
 
                             <Separator className='h-2 bg-base-300 hover:bg-primary transition-colors cursor-row-resize' />
 
                             <Panel defaultSize={30} minSize={30}>
-                                <OutputPanel />
+                                <OutputPanel output={output} />
                             </Panel>
                         </Group>
                     </Panel>
